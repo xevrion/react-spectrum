@@ -389,7 +389,9 @@ function DetailTrigger(props: DetailTriggerProps) {
 
   return (
     <Button
-      className={renderProps => mergeStyles(buttonStyles({...renderProps}), detailTriggerStyles) + ' ' + textSizeAdjust}
+      className={renderProps =>
+        mergeStyles(buttonStyles({...renderProps}), detailTriggerStyles) + ' ' + textSizeAdjust
+      }
       slot="trigger">
       {children}
       <CenterBaseline styles={detailTriggerChevronStyles({isExpanded, isRTL})}>
