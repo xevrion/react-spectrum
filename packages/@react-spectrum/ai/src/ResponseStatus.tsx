@@ -13,6 +13,7 @@
 import {AriaLabelingProps, DOMProps, DOMRef, GlobalDOMAttributes} from '@react-types/shared';
 import {
   baseColor,
+  css,
   focusRing,
   iconStyle,
   space,
@@ -388,7 +389,7 @@ function DetailTrigger(props: DetailTriggerProps) {
 
   return (
     <Button
-      className={renderProps => mergeStyles(buttonStyles({...renderProps}), detailTriggerStyles)}
+      className={renderProps => mergeStyles(buttonStyles({...renderProps}), detailTriggerStyles) + ' ' + textSizeAdjust}
       slot="trigger">
       {children}
       <CenterBaseline styles={detailTriggerChevronStyles({isExpanded, isRTL})}>
@@ -466,6 +467,13 @@ const executionTraceWithoutDisclosureStyles = style({
   minHeight: 24
 });
 
+// Prevents Mobile Safari from auto-inflating the font size of wrapping text
+// blocks ("font boosting") when the user changes their text size setting.
+const textSizeAdjust = css(`
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+`);
+
 /**
  * An ExecutionTraceItem represents a single step within an ExecutionTrace, such as
  * a tool call or search. When a `detail` is provided, the row can be expanded to reveal it.
@@ -505,7 +513,7 @@ export const ExecutionTraceItem = forwardRef(function ExecutionTraceItem(
         </div>
       ) : (
         <div className={executionTraceWithoutDisclosureStyles}>
-          <span>{children}</span>
+          <span className={textSizeAdjust}>{children}</span>
           {hasDetail && isAlwaysOpen ? <div>{detail}</div> : null}
         </div>
       )}
